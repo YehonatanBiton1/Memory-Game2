@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הפורטפוליו של יהונתן</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #f8f8f8;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .game-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .game-box {
+            width:100%;
+            height: 150px;
+            margin: 10px;
+            padding: 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .game-box:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>הפורטפוליו של יהונתן</h1>
+
+    <div class="game-container">
+        <div class="game-box" onclick="enterGame('easy/easy.html')"> רמה קלה</div>
+        <div class="game-box" onclick="enterGame('Medium/Medium.html')">רמה בינונית </div>
+        <div class="game-box" onclick="enterGame('Hard/Hard.html')">רמה קשה</div>
+    </div>
+
+    <script>
+        function enterGame(gameURL) {
+            window.location.assign(gameURL);
+        }
+    </script>
+</body>
+</html>
