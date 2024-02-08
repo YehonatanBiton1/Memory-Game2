@@ -2,24 +2,89 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
   <title>Memory Game</title>
-
   <link rel="stylesheet" href="styles1.css">
+  <style>
+    h1 {
+      position: absolute;
+      margin-top: -75px;
+vertical-align: middle;
+margin-left: 105px;
+}
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      background: #060AB2;
+    }
+
+    .memory-game {
+      width: 640px;
+      height: 640px;
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      perspective: 1000px;
+    }
+
+    .memory-card {
+      width: calc(25% - 10px);
+      height: calc(33.333% - 10px);
+      margin: 5px;
+      position: relative;
+      transform: scale(1);
+      transform-style: preserve-3d;
+      transition: transform .5s;
+      box-shadow: 1px 1px 1px rgba(0,0,0,.3);
+      position: relative;
+    }
+
+    .memory-card:active {
+      transform: scale(0.97);
+      transition: transform .2s;
+    }
+
+    .memory-card.flip {
+      transform: rotateY(180deg);
+    }
+
+    .front-face,
+    .back-face {
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      position: absolute;
+      border-radius: 5px;
+      background: #1C7CCC;
+      backface-visibility: hidden;
+    }
+
+    .front-face {
+      transform: rotateY(180deg);
+    }
+  </style>
 </head>
 <body>
   <section class="memory-game">
-    משחק הזיכרון:Java script 
-    רמה בינונית
-    <div class="memory-card" data-framework="aurelia">
-      <img class="front-face" src="../img/aurelia.svg" alt="Aurelia" />
-      <img class="back-face" src="../img/js-badge.svg" alt="JS Badge" />
-    </div>
+    <h1>Memory Game: JavaScript - Easy Level</h1>
+
+    <p class="tyt" id="tyt"></p>
+
     <div class="memory-card" data-framework="aurelia">
       <img class="front-face" src="../img/aurelia.svg" alt="Aurelia" />
       <img class="back-face" src="../img/js-badge.svg" alt="JS Badge" />
     </div>
 
+    <div class="memory-card" data-framework="aurelia">
+      <img class="front-face" src="../img/aurelia.svg" alt="Aurelia" />
+      <img class="back-face" src="../img/js-badge.svg" alt="JS Badge" />
+    </div>
+    
     <div class="memory-card" data-framework="vue">
       <img class="front-face" src="../img/vue.svg" alt="Vue" />
       <img class="back-face" src="../img/js-badge.svg" alt="JS Badge" />
@@ -28,7 +93,7 @@
       <img class="front-face" src="../img/vue.svg" alt="Vue" />
       <img class="back-face" src="../img/js-badge.svg" alt="JS Badge" />
     </div>
-
+    
     <div class="memory-card" data-framework="angular">
       <img class="front-face" src="../img/angular.svg" alt="Angular" />
       <img class="back-face" src="../img/js-badge.svg" alt="JS Badge" />
@@ -37,7 +102,7 @@
       <img class="front-face" src="../img/angular.svg" alt="Angular" />
       <img class="back-face" src="../img/js-badge.svg" alt="JS Badge" />
     </div>
-
+    
     <div class="memory-card" data-framework="ember">
       <img class="front-face" src="../img/ember.svg" alt="Ember" />
       <img class="back-face" src="../img/js-badge.svg" alt="JS Badge" />
@@ -46,7 +111,7 @@
       <img class="front-face" src="../img/ember.svg" alt="Ember" />
       <img class="back-face" src="../img/js-badge.svg" alt="JS Badge" />
     </div>
-
+    
     <div class="memory-card" data-framework="backbone">
       <img class="front-face" src="../img/backbone.svg" alt="Backbone" />
       <img class="back-face" src="../img/js-badge.svg" alt="JS Badge" />
@@ -55,7 +120,7 @@
       <img class="front-face" src="../img/backbone.svg" alt="Backbone" />
       <img class="back-face" src="../img/js-badge.svg" alt="JS Badge" />
     </div>
-
+    
     <div class="memory-card" data-framework="react">
       <img class="front-face" src="../img/react.svg" alt="React" />
       <img class="back-face" src="../img/js-badge.svg" alt="JS Badge" />
@@ -70,133 +135,76 @@
 
   <script>
     const cards = document.querySelectorAll('.memory-card');
-let hasFlippedCard = false;
-let lockBoard = false;
-let firstCard, secondCard;
-let matchedPairs = 0;
+    let hasFlippedCard = false;
+    let lockBoard = false;
+    let firstCard, secondCard;
+    let matchedPairs = 0;
 
-function flipCard() {
-  if (lockBoard) return;
-  if (this === firstCard) return;
+    function flipCard() {
+      if (lockBoard) return;
+      if (this === firstCard) return;
 
-  this.classList.add('flip');
+      this.classList.add('flip');
 
-  if (!hasFlippedCard) {
-    // first click
-    hasFlippedCard = true;
-    firstCard = this;
-    return;
-  }
+      if (!hasFlippedCard) {
+        // first click
+        hasFlippedCard = true;
+        firstCard = this;
+        return;
+      }
 
-  // second click
-  secondCard = this;
+      // second click
+      secondCard = this;
 
-  checkForMatch();
-  checkAllCardsFlipped();
-}
+      checkForMatch();
+      checkAllCardsFlipped();
+    }
 
-function checkForMatch() {
-  let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+    function checkForMatch() {
+      let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
 
-  isMatch ? disableCards() : unflipCards();
-}
+      isMatch ? disableCards() : unflipCards();
+    }
 
-function disableCards() {
-  firstCard.removeEventListener('click', flipCard);
-  secondCard.removeEventListener('click', flipCard);
-  matchedPairs++;
+    function disableCards() {
+      firstCard.removeEventListener('click', flipCard);
+      secondCard.removeEventListener('click', flipCard);
+      matchedPairs++;
 
-  resetBoard();
-}
+      resetBoard();
+    }
 
-function unflipCards() {
-  lockBoard = true;
+    function unflipCards() {
+      lockBoard = true;
 
-  setTimeout(() => {
-    firstCard.classList.remove('flip');
-    secondCard.classList.remove('flip');
+      setTimeout(() => {
+        firstCard.classList.remove('flip');
+        secondCard.classList.remove('flip');
 
-    resetBoard();
-  }, 1500);
-}
+        resetBoard();
+      }, 1500);
+    }
 
-function resetBoard() {
-  [hasFlippedCard, lockBoard] = [false, false];
-  [firstCard, secondCard] = [null, null];
-}
+    function resetBoard() {
+      [hasFlippedCard, lockBoard] = [false, false];
+      [firstCard, secondCard] = [null, null];
+    }
 
-(function shuffle() {
-  cards.forEach(card => {
-    let randomPos = Math.floor(Math.random() * 7);
-    card.style.order = randomPos;
-  });
-})();
+    (function shuffle() {
+      cards.forEach(card => {
+        let randomPos = Math.floor(Math.random() * 12);
+        card.style.order = randomPos;
+      });
+    })();
 
-cards.forEach(card => card.addEventListener('click', flipCard));
+    cards.forEach(card => card.addEventListener('click', flipCard));
 
-function checkAllCardsFlipped() {
-  if (matchedPairs === cards.length / 2) {
-    var par = document.getElementById('tyt');
-    par.innerHTML = "All cards flipped!"; 
-  }
-}
+    function checkAllCardsFlipped() {
+      if (matchedPairs === cards.length / 2) {
+        var par = document.getElementById('tyt');
+        par.innerHTML = "All cards flipped!"; 
+      }
+    }
   </script>
-  <style>
-    * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    height: 100vh;
-    display: flex;
-    background: #060AB2;
-  }
-  
-  .memory-game {
-    width: 640px;
-    height: 640px;
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-    perspective: 1000px;
-  }
-  
-  .memory-card {
-    width: calc(25% - 10px);
-    height: calc(33.333% - 10px);
-    margin: 5px;
-    position: relative;
-    transform: scale(1);
-    transform-style: preserve-3d;
-    transition: transform .5s;
-    box-shadow: 1px 1px 1px rgba(0,0,0,.3);
-  }
-  
-  .memory-card:active {
-    transform: scale(0.97);
-    transition: transform .2s;
-  }
-  
-  .memory-card.flip {
-    transform: rotateY(180deg);
-  }
-  
-  .front-face,
-  .back-face {
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    position: absolute;
-    border-radius: 5px;
-    background: #1C7CCC;
-    backface-visibility: hidden;
-  }
-  
-  .front-face {
-    transform: rotateY(180deg);
-  }
-  </style>
 </body>
 </html>
