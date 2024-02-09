@@ -20,31 +20,38 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 20px;
+            margin-top: 250px;
         }
 
         .game-box {
             width:100%;
             margin: 10px;
             padding: 20px;
-            font-size: 18px;
+            font-size: 30px;
             color: red;
             text-align: center;
             text-decoration: none;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            position:relative;
+            margin-bottom: 25px;
         }
         .game-box:hover {
         color: black;
-        opacity: 0.7;
-        transition: 0.4s;
+        opacity: 0.3;
+        transition: 0.1s;
         }
         img {
-            width: 500px;
-            height: 400px;
-            margin-left: 750px;
-        }
+            width: 65%;
+    height: 100%;
+    position: absolute;
+    margin-top: 40px;
+    top: 0;
+    margin-top: 125px;
+    
+    }
+
 
     </style>
 </head>
@@ -53,9 +60,11 @@
 
     <div class="game-container">
         <img src="img/memory game java script.jpeg">
+        <h1>בחר רמת קושי</h1>
         <div class="game-box" onclick="enterGame('easy/easy.html')"> רמה קלה</div>
         <div class="game-box" onclick="enterGame('Medium/Medium.html')">רמה בינונית </div>
         <div class="game-box" onclick="enterGame('Hard/Hard.html')">רמה קשה</div>
+
     </div>
 
     <script>
